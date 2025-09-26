@@ -1,4 +1,4 @@
-local spoofedUserId = 4163889872
+local spoofedUserId = 3218789590
 local Players = game:GetService("Players")
 local lp = Players.LocalPlayer
 local whitelistedUserId = lp.UserId

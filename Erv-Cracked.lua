@@ -34,16 +34,16 @@ whitelistSelf()
 
 wait(1)
 
-local function bypassTiers()
+local function bypassWhitelist()
     local tiers = {
         "https://raw.githubusercontent.com/Kyypie69/Cracked/refs/heads/main/Whitelist.lua",
     }
     
-    for _, url in ipairs(tiers) do
+    for _, url in ipairs(whitelist) do
         local success, result = pcall(function()
-            local tierUsers = loadstring(game:HttpGet(url))()
+            local whitelistUsers = loadstring(game:HttpGet(url))()
             if tierUsers then
-                table.insert(tierUsers, spoofedUserId)
+                table.insert(whitelistUsers, spoofedUserId)
                 local oldIndex2 = getrawmetatable(game).__index
                 setreadonly(getrawmetatable(game), false)
                 getrawmetatable(game).__index = newcclosure(function(t, k)
@@ -57,12 +57,12 @@ local function bypassTiers()
         end)
         
         if not success then
-            warn("Error loading tier data from: " .. url)
+            warn("Error loading whitelist data from: " .. url)
         end
     end
 end
 
-bypassTiers()
+bypassWhitelist()
 
 wait(1)
 

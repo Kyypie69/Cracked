@@ -97,4 +97,4 @@ local function safeLoadString(url)
     end
 end
 
-safeLoadString("https://raw.githubusercontent.com/EncryptedV10/Cracked-Scripts/refs/heads/main/Los%20xd/loader.lua")
+safeLoadString("https://raw.githubusercontent.com/Kyypie69/Cracked/refs/heads/main/loader.lua")

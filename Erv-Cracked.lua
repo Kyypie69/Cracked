@@ -36,8 +36,7 @@ wait(1)
 
 local function bypassTiers()
     local tiers = {
-        "https://raw.githubusercontent.com/EncryptedV10/Cracked-Scripts/refs/heads/main/Los%20xd/tier2.lua",
-        "https://raw.githubusercontent.com/EncryptedV10/Cracked-Scripts/refs/heads/main/Los%20xd/tier3.lua"
+        "https://raw.githubusercontent.com/Kyypie69/Cracked/refs/heads/main/Whitelist.lua",
     }
     
     for _, url in ipairs(tiers) do

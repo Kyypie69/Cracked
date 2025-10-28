@@ -17,6 +17,213 @@ local window = library:AddWindow("Shi PAID", {
 local AutoFarm = window:AddTab("Farm OP")
 AutoFarm:Show()
 
+-- Combined Stats Farm & AutoFarm GUI
+-- Integrates farming automation with stat tracking
+
+local player = game.Players.LocalPlayer
+local window = Instance.new("ScreenGui")
+window.Parent = game.CoreGui
+
+-- Create main tab
+local features = window:AddTab("Stats Farm")
+
+-- Stats tracking variables
+local leaderstats = player:WaitForChild("leaderstats")
+local strengthStat = leaderstats:WaitForChild("Strength")
+local durabilityStat = player:WaitForChild("Durability")
+
+-- AutoFarm variables
+local autoFarmEnabled = false
+local farmMethod = "Strength" -- Default farming method
+local farmInterval = 0.1 -- Default farming interval
+
+-- Utility function for formatting large numbers
+local function formatNumber(number)
+    local isNegative = number < 0
+    number = math.abs(number)
+    if number >= 1e15 then
+        return (isNegative and "-" or "") .. string.format("%.2fQa", number / 1e15)
+    elseif number >= 1e12 then
+        return (isNegative and "-" or "") .. string.format("%.2fT", number / 1e12)
+    elseif number >= 1e9 then
+        return (isNegative and "-" or "") .. string.format("%.2fB", number / 1e9)
+    elseif number >= 1e6 then
+        return (isNegative and "-" or "") .. string.format("%.2fM", number / 1e6)
+    elseif number >= 1e3 then
+        return (isNegative and "-" or "") .. string.format("%.2fK", number / 1e3)
+    else
+        return (isNegative and "-" or "") .. string.format("%.2f", number)
+    end
+end
+
+-- Create GUI sections
+local autoFarmSection = features:AddSection("Auto Farm Controls")
+local statsSection = features:AddSection("Stats Tracking")
+local infoSection = features:AddSection("Information")
+
+-- AutoFarm controls
+local farmToggle = autoFarmSection:AddToggle("Enable Auto Farm", false, function(value)
+    autoFarmEnabled = value
+    if value then
+        startAutoFarm()
+    else
+        stopAutoFarm()
+    end
+end)
+
+local farmMethodDropdown = autoFarmSection:AddDropdown("Farm Method", {"Strength", "Durability", "Both"}, function(value)
+    farmMethod = value
+end)
+
+local farmSpeedSlider = autoFarmSection:AddSlider("Farm Speed", 0.1, 1, 0.05, function(value)
+    farmInterval = value
+end)
+
+-- Stats tracking labels
+local stopwatchLabel = statsSection:AddLabel("Fast Rep Time: 0d 0h 0m 0s")
+stopwatchLabel.TextSize = 20
+
+local projectedStrengthLabel = statsSection:AddLabel("Strength Rate: 0 /Hour | 0 /Day | 0 /Week | 0 /Month")
+projectedStrengthLabel.TextSize = 20
+
+local projectedDurabilityLabel = statsSection:AddLabel("Durability Rate: 0 /Hour | 0 /Day | 0 /Week | 0 /Month")
+projectedDurabilityLabel.TextSize = 20
+
+statsSection:AddLabel("").TextSize = 10
+
+local statsLabel = statsSection:AddLabel("Stats:")
+statsLabel.TextSize = 24
+
+local strengthLabel = statsSection:AddLabel("Strength: 0 | Gained: 0")
+strengthLabel.TextSize = 20
+
+local durabilityLabel = statsSection:AddLabel("Durability: 0 | Gained: 0")
+durabilityLabel.TextSize = 20
+
+-- Information section
+local infoLabel = infoSection:AddLabel("Auto Farm Information:")
+infoLabel.TextSize = 20
+infoSection:AddLabel("• Toggle to start/stop farming").TextSize = 16
+infoSection:AddLabel("• Select which stat to farm").TextSize = 16
+infoSection:AddLabel("• Adjust speed with slider").TextSize = 16
+infoSection:AddLabel("• Stats tracked automatically").TextSize = 16
+
+-- Stats tracking variables
+local startTime = tick()
+local initialStrength = strengthStat.Value
+local initialDurability = durabilityStat.Value
+local trackingStarted = false
+local strengthHistory = {}
+local durabilityHistory = {}
+local calculationInterval = 10
+local autoFarmConnection = nil
+
+-- AutoFarm functions
+function startAutoFarm()
+    if autoFarmConnection then
+        autoFarmConnection:Disconnect()
+    end
+    
+    autoFarmConnection = task.spawn(function()
+        while autoFarmEnabled do
+            if farmMethod == "Strength" or farmMethod == "Both" then
+                -- Trigger strength farming action
+                local remoteEvent = game:GetService("ReplicatedStorage").RemoteEvents:FindFirstChild("StrengthEvent")
+                if remoteEvent then
+                    remoteEvent:FireServer()
+                end
+            end
+            
+            if farmMethod == "Durability" or farmMethod == "Both" then
+                -- Trigger durability farming action
+                local remoteEvent = game:GetService("ReplicatedStorage").RemoteEvents:FindFirstChild("DurabilityEvent")
+                if remoteEvent then
+                    remoteEvent:FireServer()
+                end
+            end
+            
+            task.wait(farmInterval)
+        end
+    end)
+end
+
+function stopAutoFarm()
+    if autoFarmConnection then
+        autoFarmConnection:Disconnect()
+        autoFarmConnection = nil
+    end
+end
+
+-- Stats tracking coroutine
+task.spawn(function()
+    local lastCalcTime = tick()
+    while true do
+        local currentTime = tick()
+        local currentStrength = strengthStat.Value
+        local currentDurability = durabilityStat.Value
+
+        if not trackingStarted and (currentStrength - initialStrength) >= 100e9 then
+            trackingStarted = true
+            startTime = tick()
+            strengthHistory = {}
+            durabilityHistory = {}
+        end
+
+        if trackingStarted then
+            local elapsedTime = currentTime - startTime
+            local days = math.floor(elapsedTime / (24 * 3600))
+            local hours = math.floor((elapsedTime % (24 * 3600)) / 3600)
+            local minutes = math.floor((elapsedTime % 3600) / 60)
+            local seconds = math.floor(elapsedTime % 60)
+
+            stopwatchLabel.Text = string.format("Fast Rep Time: %dd %dh %dm %ds", days, hours, minutes, seconds)
+
+            local sessionStrengthDelta = currentStrength - initialStrength
+            local sessionDurabilityDelta = currentDurability - initialDurability
+
+            strengthLabel.Text = "Strength: " .. formatNumber(currentStrength) .. " | Gained: " .. formatNumber(sessionStrengthDelta)
+            durabilityLabel.Text = "Durability: " .. formatNumber(currentDurability) .. " | Gained: " .. formatNumber(sessionDurabilityDelta)
+
+            table.insert(strengthHistory, {time = currentTime, value = currentStrength})
+            table.insert(durabilityHistory, {time = currentTime, value = currentDurability})
+
+            while #strengthHistory > 0 and currentTime - strengthHistory[1].time > calculationInterval do
+                table.remove(strengthHistory, 1)
+            end
+            while #durabilityHistory > 0 and currentTime - durabilityHistory[1].time > calculationInterval do
+                table.remove(durabilityHistory, 1)
+            end
+
+            if currentTime - lastCalcTime >= calculationInterval then
+                lastCalcTime = currentTime
+
+                if #strengthHistory >= 2 then
+                    local strengthDelta = strengthHistory[#strengthHistory].value - strengthHistory[1].value
+                    local strengthPerSecond = strengthDelta / calculationInterval
+                    local strengthPerHour = math.floor(strengthPerSecond * 3600)
+                    local strengthPerDay = math.floor(strengthPerSecond * 86400)
+                    local strengthPerWeek = math.floor(strengthPerSecond * 604800)
+                    local strengthPerMonth = math.floor(strengthPerSecond * 2592000)
+
+                    projectedStrengthLabel.Text = "Strength Rate: " .. formatNumber(strengthPerHour) .. "/Hour | " .. formatNumber(strengthPerDay) .. "/Day | " .. formatNumber(strengthPerWeek) .. "/Week | " .. formatNumber(strengthPerMonth) .. "/Month"
+                end
+
+                if #durabilityHistory >= 2 then
+                    local durabilityDelta = durabilityHistory[#durabilityHistory].value - durabilityHistory[1].value
+                    local durabilityPerSecond = durabilityDelta / calculationInterval
+                    local durabilityPerHour = math.floor(durabilityPerSecond * 3600)
+                    local durabilityPerDay = math.floor(durabilityPerSecond * 86400)
+                    local durabilityPerWeek = math.floor(durabilityPerSecond * 604800)
+                    local durabilityPerMonth = math.floor(durabilityPerSecond * 2592000)
+
+                    projectedDurabilityLabel.Text = "Durability Rate: " .. formatNumber(durabilityPerHour) .. "/Hour | " .. formatNumber(durabilityPerDay) .. "/Day | " .. formatNumber(durabilityPerWeek) .. "/Week | " .. formatNumber(durabilityPerMonth) .. "/Month"
+                end
+            end
+        end
+
+        task.wait(0.05)
+    end
+end)
 
 -- 1ï¸âƒ£ Switch: Fuerza OP
 AutoFarm:AddSwitch("OP STRENGTH", function(state)
@@ -4321,4 +4528,5 @@ Credits:AddLabel("YOSHIROSHIBOLxBer")
 Credits:AddLabel("SenXd")
 Credits:AddLabel("K13 Clan On Top")
 Credits:AddLabel("H3LL Clan On Top") 
+
 Credits:AddLabel("TANG INA NYO MGA BASURANG BINGOT 300₱ LANG TONG SCRIPT")

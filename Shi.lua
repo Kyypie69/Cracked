@@ -163,14 +163,14 @@ task.spawn(function()
     end
 end)
 
-features:AddSwitch("Eat Egg (30 Min)", function(state)
+local features:AddSwitch("Eat Egg (30 Min)", function(state)
     autoEatEnabled = state
     print(state and "[AutoEgg] Activado." or "[AutoEgg] Desactivado.")
 end)
 
 
 -- 4ï¸âƒ£ Switch: Anti Lag
-features:AddSwitch("Anti Lag", function(State)
+local features:AddSwitch("Anti Lag", function(State)
     local lighting = game:GetService("Lighting")
     if State then
         for _, gui in pairs(LocalPlayer.PlayerGui:GetChildren()) do
@@ -416,7 +416,7 @@ end)
 
 
 -- ðŸ–¼ï¸ Hide All Frames
-features:AddSwitch("Hide All Frames", function(bool)
+local features:AddSwitch("Hide All Frames", function(bool)
     local rSto = game:GetService("ReplicatedStorage")
     for _, obj in pairs(rSto:GetChildren()) do
         if obj.Name:match("Frame$") then
@@ -486,7 +486,7 @@ end)
 
 
 -- ðŸŽ® BotÃ³n: Jungle Squat
-features:AddButton("Jungle Squat", function()
+local features:AddButton("Jungle Squat", function()
     local char = LocalPlayer.Character
     if char and char:FindFirstChild("HumanoidRootPart") then
         char:SetPrimaryPartCFrame(CFrame.new(-8374.25586, 34.5933418, 2932.44995))
@@ -504,12 +504,8 @@ features:AddButton("Jungle Squat", function()
     end
 end)
 
-
--- ðŸ“Œ FOLDER REBIRTH (Ordenado con Anti AFK antes de Anti Lag)
-local RebirthFolder = AutoFarm:AddFolder("OP Rebirth")
-
 -- ðŸ” Fast Rebirths
-features:AddSwitch("Fast Rebirths", function(state)
+local features:AddSwitch("Fast Rebirths", function(state)
     getgenv().AutoFarming = state
     if state then
         task.spawn(function()
@@ -582,7 +578,7 @@ features:AddSwitch("Fast Rebirths", function(state)
 end)
 
 -- ðŸ”’ Lock Position
-features:AddSwitch("Lock Position", function(Value)
+local features:AddSwitch("Lock Position", function(Value)
     if Value then
         local currentPos = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
         getgenv().posLock = game:GetService("RunService").Heartbeat:Connect(function()
@@ -599,7 +595,7 @@ features:AddSwitch("Lock Position", function(Value)
 end)
 
 -- ðŸš€ Anti Lag
-features:AddButton("Anti Lag", function()
+local features:AddButton("Anti Lag", function()
     for _, v in pairs(game:GetDescendants()) do
         if v:IsA("ParticleEmitter") or v:IsA("Smoke") or v:IsA("Fire") or v:IsA("Sparkles") then
             v.Enabled = false
@@ -4323,3 +4319,4 @@ Credits:AddLabel("K13 Clan On Top")
 Credits:AddLabel("H3LL Clan On Top") 
 
 Credits:AddLabel("TANG INA NYO MGA BASURANG BINGOT 300₱ LANG TONG SCRIPT")
+

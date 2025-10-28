@@ -163,14 +163,14 @@ task.spawn(function()
     end
 end)
 
-AutoFarm:AddSwitch("Eat Egg (30 Min)", function(state)
+features:AddSwitch("Eat Egg (30 Min)", function(state)
     autoEatEnabled = state
     print(state and "[AutoEgg] Activado." or "[AutoEgg] Desactivado.")
 end)
 
 
 -- 4ï¸âƒ£ Switch: Anti Lag
-AutoFarm:AddSwitch("Anti Lag", function(State)
+features:AddSwitch("Anti Lag", function(State)
     local lighting = game:GetService("Lighting")
     if State then
         for _, gui in pairs(LocalPlayer.PlayerGui:GetChildren()) do
@@ -416,7 +416,7 @@ end)
 
 
 -- ðŸ–¼ï¸ Hide All Frames
-AutoFarm:AddSwitch("Hide All Frames", function(bool)
+features:AddSwitch("Hide All Frames", function(bool)
     local rSto = game:GetService("ReplicatedStorage")
     for _, obj in pairs(rSto:GetChildren()) do
         if obj.Name:match("Frame$") then
@@ -486,7 +486,7 @@ end)
 
 
 -- ðŸŽ® BotÃ³n: Jungle Squat
-AutoFarm:AddButton("Jungle Squat", function()
+features:AddButton("Jungle Squat", function()
     local char = LocalPlayer.Character
     if char and char:FindFirstChild("HumanoidRootPart") then
         char:SetPrimaryPartCFrame(CFrame.new(-8374.25586, 34.5933418, 2932.44995))
@@ -509,7 +509,7 @@ end)
 local RebirthFolder = AutoFarm:AddFolder("OP Rebirth")
 
 -- ðŸ” Fast Rebirths
-RebirthFolder:AddSwitch("Fast Rebirths", function(state)
+features:AddSwitch("Fast Rebirths", function(state)
     getgenv().AutoFarming = state
     if state then
         task.spawn(function()
@@ -582,7 +582,7 @@ RebirthFolder:AddSwitch("Fast Rebirths", function(state)
 end)
 
 -- ðŸ”’ Lock Position
-RebirthFolder:AddSwitch("Lock Position", function(Value)
+features:AddSwitch("Lock Position", function(Value)
     if Value then
         local currentPos = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
         getgenv().posLock = game:GetService("RunService").Heartbeat:Connect(function()
@@ -599,7 +599,7 @@ RebirthFolder:AddSwitch("Lock Position", function(Value)
 end)
 
 -- ðŸš€ Anti Lag
-RebirthFolder:AddButton("Anti Lag", function()
+features:AddButton("Anti Lag", function()
     for _, v in pairs(game:GetDescendants()) do
         if v:IsA("ParticleEmitter") or v:IsA("Smoke") or v:IsA("Fire") or v:IsA("Sparkles") then
             v.Enabled = false
@@ -655,7 +655,7 @@ RebirthFolder:AddButton("Jungle Lift", function()
     print("[Jungle Lift] Teletransport ejecutado correctamente.")
 end)
 
-AutoFarm:AddLabel("Farm Whiteout Packs")
+AutoFarm:AddLabel("Farm Without Packs")
 
 local autoEquipToolsFolder = AutoFarm:AddFolder("Auto Tools")
 
@@ -4321,4 +4321,5 @@ Credits:AddLabel("YOSHIROSHIBOLxBer")
 Credits:AddLabel("SenXd")
 Credits:AddLabel("K13 Clan On Top")
 Credits:AddLabel("H3LL Clan On Top") 
+
 Credits:AddLabel("TANG INA NYO MGA BASURANG BINGOT 300₱ LANG TONG SCRIPT")

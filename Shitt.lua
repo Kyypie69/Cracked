@@ -17,27 +17,14 @@ local window = library:AddWindow("Shi PAID", {
 local AutoFarm = window:AddTab("Farm OP")
 AutoFarm:Show()
 
--- Combined Stats Farm & AutoFarm GUI
--- Integrates farming automation with stat tracking
-
+--------------------------------------------------
+-- 1. 把 Stats-Farm 页里的所有控件复制过来
+--------------------------------------------------
 local player = game.Players.LocalPlayer
-local window = Instance.new("ScreenGui")
-window.Parent = game.CoreGui
-
--- Create main tab
-local features = window:AddTab("Stats Farm")
-
--- Stats tracking variables
 local leaderstats = player:WaitForChild("leaderstats")
 local strengthStat = leaderstats:WaitForChild("Strength")
 local durabilityStat = player:WaitForChild("Durability")
 
--- AutoFarm variables
-local autoFarmEnabled = false
-local farmMethod = "Strength" -- Default farming method
-local farmInterval = 0.1 -- Default farming interval
-
--- Utility function for formatting large numbers
 local function formatNumber(number)
     local isNegative = number < 0
     number = math.abs(number)
@@ -56,105 +43,38 @@ local function formatNumber(number)
     end
 end
 
--- Create GUI sections
-local autoFarmSection = features:AddSection("Auto Farm Controls")
-local statsSection = features:AddSection("Stats Tracking")
-local infoSection = features:AddSection("Information")
-
--- AutoFarm controls
-local farmToggle = autoFarmSection:AddToggle("Enable Auto Farm", false, function(value)
-    autoFarmEnabled = value
-    if value then
-        startAutoFarm()
-    else
-        stopAutoFarm()
-    end
-end)
-
-local farmMethodDropdown = autoFarmSection:AddDropdown("Farm Method", {"Strength", "Durability", "Both"}, function(value)
-    farmMethod = value
-end)
-
-local farmSpeedSlider = autoFarmSection:AddSlider("Farm Speed", 0.1, 1, 0.05, function(value)
-    farmInterval = value
-end)
-
--- Stats tracking labels
-local stopwatchLabel = statsSection:AddLabel("Fast Rep Time: 0d 0h 0m 0s")
+local stopwatchLabel = AutoFarm:AddLabel("Fast Rep Time: 0d 0h 0m 0s")
 stopwatchLabel.TextSize = 20
 
-local projectedStrengthLabel = statsSection:AddLabel("Strength Rate: 0 /Hour | 0 /Day | 0 /Week | 0 /Month")
+local projectedStrengthLabel = AutoFarm:AddLabel("Strength Rate: 0 /Hour | 0 /Day | 0 /Week | 0 /Month")
 projectedStrengthLabel.TextSize = 20
 
-local projectedDurabilityLabel = statsSection:AddLabel("Durability Rate: 0 /Hour | 0 /Day | 0 /Week | 0 /Month")
+local projectedDurabilityLabel = AutoFarm:AddLabel("Durability Rate: 0 /Hour | 0 /Day | 0 /Week | 0 /Month")
 projectedDurabilityLabel.TextSize = 20
 
-statsSection:AddLabel("").TextSize = 10
+AutoFarm:AddLabel("").TextSize = 10
 
-local statsLabel = statsSection:AddLabel("Stats:")
+local statsLabel = AutoFarm:AddLabel("Stats:")
 statsLabel.TextSize = 24
 
-local strengthLabel = statsSection:AddLabel("Strength: 0 | Gained: 0")
+local strengthLabel = AutoFarm:AddLabel("Strength: 0 | Gained: 0")
 strengthLabel.TextSize = 20
 
-local durabilityLabel = statsSection:AddLabel("Durability: 0 | Gained: 0")
+local durabilityLabel = AutoFarm:AddLabel("Durability: 0 | Gained: 0")
 durabilityLabel.TextSize = 20
 
--- Information section
-local infoLabel = infoSection:AddLabel("Auto Farm Information:")
-infoLabel.TextSize = 20
-infoSection:AddLabel("• Toggle to start/stop farming").TextSize = 16
-infoSection:AddLabel("• Select which stat to farm").TextSize = 16
-infoSection:AddLabel("• Adjust speed with slider").TextSize = 16
-infoSection:AddLabel("• Stats tracked automatically").TextSize = 16
-
--- Stats tracking variables
+--------------------------------------------------
+-- 2. 计时 / 速率计算逻辑（完全不变）
+--------------------------------------------------
 local startTime = tick()
 local initialStrength = strengthStat.Value
 local initialDurability = durabilityStat.Value
 local trackingStarted = false
+
 local strengthHistory = {}
 local durabilityHistory = {}
 local calculationInterval = 10
-local autoFarmConnection = nil
 
--- AutoFarm functions
-function startAutoFarm()
-    if autoFarmConnection then
-        autoFarmConnection:Disconnect()
-    end
-    
-    autoFarmConnection = task.spawn(function()
-        while autoFarmEnabled do
-            if farmMethod == "Strength" or farmMethod == "Both" then
-                -- Trigger strength farming action
-                local remoteEvent = game:GetService("ReplicatedStorage").RemoteEvents:FindFirstChild("StrengthEvent")
-                if remoteEvent then
-                    remoteEvent:FireServer()
-                end
-            end
-            
-            if farmMethod == "Durability" or farmMethod == "Both" then
-                -- Trigger durability farming action
-                local remoteEvent = game:GetService("ReplicatedStorage").RemoteEvents:FindFirstChild("DurabilityEvent")
-                if remoteEvent then
-                    remoteEvent:FireServer()
-                end
-            end
-            
-            task.wait(farmInterval)
-        end
-    end)
-end
-
-function stopAutoFarm()
-    if autoFarmConnection then
-        autoFarmConnection:Disconnect()
-        autoFarmConnection = nil
-    end
-end
-
--- Stats tracking coroutine
 task.spawn(function()
     local lastCalcTime = tick()
     while true do
@@ -223,7 +143,32 @@ task.spawn(function()
 
         task.wait(0.05)
     end
-end)
+end)                    remoteEvent:FireServer()
+                end
+            end
+            
+            if farmMethod == "Durability" or farmMethod == "Both" then
+                -- Trigger durability farming action
+                local remoteEvent = game:GetService("ReplicatedStorage").RemoteEvents:FindFirstChild("DurabilityEvent")
+                if remoteEvent then
+                    remoteEvent:FireServer()
+                end
+            end
+            
+            task.wait(farmInterval)
+        end
+    end)
+end
+
+function stopAutoFarm()
+    if autoFarmConnection then
+        autoFarmConnection:Disconnect()
+        autoFarmConnection = nil
+    end
+end
+
+-- Stats tracking coroutine
+
 
 -- 1ï¸âƒ£ Switch: Fuerza OP
 AutoFarm:AddSwitch("OP STRENGTH", function(state)
@@ -4530,3 +4475,4 @@ Credits:AddLabel("K13 Clan On Top")
 Credits:AddLabel("H3LL Clan On Top") 
 
 Credits:AddLabel("TANG INA NYO MGA BASURANG BINGOT 300₱ LANG TONG SCRIPT")
+

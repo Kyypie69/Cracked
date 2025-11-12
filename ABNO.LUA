@@ -14,11 +14,6 @@ local Window = Library:CreateWindow({
     TabWidth = 140
 })
 
--- Initialize Save Manager
-SaveManager:SetLibrary(Library)
-SaveManager:SetFolder("KYY_Configs")
-SaveManager:BuildFolderTree()
-
 -- Create Tabs
 local AutoFarm = Window:AddTab({Title = "Farm OP", Icon = "sword"})
 local StatsFarm = Window:AddTab({Title = "Stats Farm", Icon = "chart"})
@@ -29,49 +24,6 @@ local Pets = Window:AddTab({Title = "Crystals", Icon = "gem"})
 local Gift = Window:AddTab({Title = "Gift", Icon = "gift"})
 local Credits = Window:AddTab({Title = "Credits", Icon = "heart"})
 
--- Configuration Section
-local ConfigSection = AutoFarm:AddSection("Configuration")
-ConfigSection:AddInput("ConfigName", {
-    Title = "Config Name",
-    Default = "MyConfig",
-    Placeholder = "Enter config name"
-})
-
-ConfigSection:AddDropdown("ConfigList", {
-    Title = "Load Config",
-    Values = SaveManager:RefreshConfigList(),
-    AllowNull = true
-})
-
-ConfigSection:AddButton({
-    Title = "Save Config",
-    Callback = function()
-        local name = Library.Options.ConfigName.Value
-        if name and name ~= "" then
-            SaveManager:Save(name)
-            Library:Notify({
-                Title = "Config Saved",
-                Content = "Configuration saved successfully",
-                Duration = 3
-            })
-        end
-    end
-})
-
-ConfigSection:AddButton({
-    Title = "Load Config",
-    Callback = function()
-        local name = Library.Options.ConfigList.Value
-        if name then
-            SaveManager:Load(name)
-            Library:Notify({
-                Title = "Config Loaded",
-                Content = "Configuration loaded successfully",
-                Duration = 3
-            })
-        end
-    end
-})
 
 -- Auto Farm Section
 local FarmSection = AutoFarm:AddSection("Auto Farm")
@@ -1303,22 +1255,5 @@ task.spawn(function()
         end
 
         task.wait(0.05)
-    end
-end)
-
--- Notification on load
-Library:Notify({
-    Title = "KYY PIE HUB Loaded",
-    Content = "Premium Muscle Legends script with SpeedHub X UI",
-    Duration = 5
-})
-
--- Auto-save functionality
-task.spawn(function()
-    while true do
-        task.wait(300) -- Save every 5 minutes
-        if Library.Options.ConfigName and Library.Options.ConfigName.Value ~= "" then
-            SaveManager:Save(Library.Options.ConfigName.Value)
-        end
     end
 end)

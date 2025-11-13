@@ -43,29 +43,250 @@ Farm:AddToggle("EAT_EGG", {
 Farm:AddToggle("ANTI_LAG", {
     Title = "Anti Lag",
     Default = false,
-    Callback = function(v)
-        for _, v in pairs(game:GetDescendants()) do
-            if v:IsA("ParticleEmitter") or v:IsA("Fire") or v:IsA("Smoke") then
-                v.Enabled = not v.Enabled
+    Callback = function(state)
+        local lighting = game:GetService("Lighting")
+    if State then
+        for _, gui in pairs(LocalPlayer.PlayerGui:GetChildren()) do
+            if gui:IsA("ScreenGui") then gui:Destroy() end
+        end
+        for _, obj in pairs(workspace:GetDescendants()) do
+            if obj:IsA("ParticleEmitter") or obj:IsA("PointLight") or obj:IsA("SpotLight") or obj:IsA("SurfaceLight") then
+                obj:Destroy()
             end
         end
+        for _, v in pairs(lighting:GetChildren()) do
+            if v:IsA("Sky") then v:Destroy() end
+        end
+        local darkSky = Instance.new("Sky")
+        darkSky.Name = "DarkSky"
+        darkSky.SkyboxBk = "rbxassetid://0"
+        darkSky.SkyboxDn = "rbxassetid://0"
+        darkSky.SkyboxFt = "rbxassetid://0"
+        darkSky.SkyboxLf = "rbxassetid://0"
+        darkSky.SkyboxRt = "rbxassetid://0"
+        darkSky.SkyboxUp = "rbxassetid://0"
+        darkSky.Parent = lighting
+        lighting.Brightness = 0
+        lighting.ClockTime = 0
+        lighting.TimeOfDay = "00:00:00"
+        lighting.OutdoorAmbient = Color3.new(0,0,0)
+        lighting.Ambient = Color3.new(0,0,0)
+        lighting.FogColor = Color3.new(0,0,0)
+        lighting.FogEnd = 100
+        task.spawn(function()
+            while State do
+                task.wait(5)
+                if not lighting:FindFirstChild("DarkSky") then
+                    darkSky:Clone().Parent = lighting
+                end
+            end
+        end)
     end
-})
+end)
 
 Farm:AddToggle("ANTI_AFK", {
     Title = "Anti AFK",
     Default = false,
-    Callback = function(v)
-        getgenv().AntiAfkEnabled = v
-        if v then
-            game.Players.LocalPlayer.Idled:Connect(function()
-                game:GetService("VirtualUser"):Button2Down(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
+    Callback = function(state)
+        if state then
+        -- Ã¢Å“â€¦ ACTIVAR ANTI AFK
+        if getgenv().AntiAfkExecuted and thisoneissocoldww then 
+            getgenv().AntiAfkExecuted = false
+            getgenv().zamanbaslaticisi = false
+            game.CoreGui.thisoneissocoldww:Destroy()
+        end
+        getgenv().AntiAfkExecuted = true
+
+        local thisoneissocoldww = Instance.new("ScreenGui")
+        local madebybloodofbatus = Instance.new("Frame")
+        local UICornerw = Instance.new("UICorner")
+        local DestroyButton = Instance.new("TextButton")
+        local uselesslabelone = Instance.new("TextLabel")
+        local timerlabel = Instance.new("TextLabel")
+        local uselesslabeltwo = Instance.new("TextLabel")
+        local fpslabel = Instance.new("TextLabel")
+        local uselesslabelthree = Instance.new("TextLabel")
+        local pinglabel = Instance.new("TextLabel")
+        local uselessframeone = Instance.new("Frame")
+        local UICornerww = Instance.new("UICorner")
+        local uselesslabelfour = Instance.new("TextLabel")
+
+        thisoneissocoldww.Name = "thisoneissocoldww"
+        thisoneissocoldww.Parent = game.CoreGui
+        thisoneissocoldww.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+        madebybloodofbatus.Name = "madebybloodofbatus"
+        madebybloodofbatus.Parent = thisoneissocoldww
+        madebybloodofbatus.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+        madebybloodofbatus.Position = UDim2.new(0.085,0,0.13,0)
+        madebybloodofbatus.Size = UDim2.new(0,225,0,96)
+        UICornerw.Parent = madebybloodofbatus
+
+        DestroyButton.Name = "DestroyButton"
+        DestroyButton.Parent = madebybloodofbatus
+        DestroyButton.BackgroundTransparency = 1
+        DestroyButton.Position = UDim2.new(0.87,0,0.02,0)
+        DestroyButton.Size = UDim2.new(0,27,0,15)
+        DestroyButton.Font = Enum.Font.SourceSans
+        DestroyButton.Text = "X"
+        DestroyButton.TextColor3 = Color3.fromRGB(255,255,255)
+        DestroyButton.TextSize = 14
+        DestroyButton.MouseButton1Click:Connect(function()
+            getgenv().AntiAfkExecuted = false
+            wait(0.1)
+            thisoneissocoldww:Destroy()
+        end)
+
+        uselesslabelone.Parent = madebybloodofbatus
+        uselesslabelone.BackgroundTransparency = 1
+        uselesslabelone.Position = UDim2.new(0.3,0,0,0)
+        uselesslabelone.Size = UDim2.new(0,95,0,24)
+        uselesslabelone.Font = Enum.Font.SourceSans
+        uselesslabelone.Text = "Anti Afk Activated"
+        uselesslabelone.TextColor3 = Color3.fromRGB(50,255,50)
+        uselesslabelone.TextSize = 14
+
+        timerlabel.Parent = madebybloodofbatus
+        timerlabel.BackgroundTransparency = 1
+        timerlabel.Position = UDim2.new(0.65,0,0.68,0)
+        timerlabel.Size = UDim2.new(0,60,0,24)
+        timerlabel.Font = Enum.Font.SourceSans
+        timerlabel.Text = "0:0:0"
+        timerlabel.TextColor3 = Color3.fromRGB(255,255,255)
+        timerlabel.TextSize = 14
+
+        uselesslabeltwo.Parent = madebybloodofbatus
+        uselesslabeltwo.BackgroundTransparency = 1
+        uselesslabeltwo.Position = UDim2.new(0.03,0,0.37,0)
+        uselesslabeltwo.Size = UDim2.new(0,29,0,24)
+        uselesslabeltwo.Font = Enum.Font.SourceSans
+        uselesslabeltwo.Text = "Ping: "
+        uselesslabeltwo.TextColor3 = Color3.fromRGB(255,255,255)
+        uselesslabeltwo.TextSize = 14
+
+        fpslabel.Parent = madebybloodofbatus
+        fpslabel.BackgroundTransparency = 1
+        fpslabel.Position = UDim2.new(0.72,0,0.35,0)
+        fpslabel.Size = UDim2.new(0,55,0,24)
+        fpslabel.Font = Enum.Font.SourceSans
+        fpslabel.Text = "0"
+        fpslabel.TextColor3 = Color3.fromRGB(255,255,255)
+        fpslabel.TextSize = 14
+
+        uselesslabelthree.Parent = madebybloodofbatus
+        uselesslabelthree.BackgroundTransparency = 1
+        uselesslabelthree.Position = UDim2.new(0.5,0,0.35,0)
+        uselesslabelthree.Size = UDim2.new(0,26,0,24)
+        uselesslabelthree.Font = Enum.Font.SourceSans
+        uselesslabelthree.Text = "Fps: "
+        uselesslabelthree.TextColor3 = Color3.fromRGB(255,255,255)
+        uselesslabelthree.TextSize = 14
+
+        pinglabel.Parent = madebybloodofbatus
+        pinglabel.BackgroundTransparency = 1
+        pinglabel.Position = UDim2.new(0.2,0,0.37,0)
+        pinglabel.Size = UDim2.new(0,55,0,24)
+        pinglabel.Font = Enum.Font.SourceSans
+        pinglabel.Text = "0"
+        pinglabel.TextColor3 = Color3.fromRGB(255,255,255)
+        pinglabel.TextSize = 14
+        pinglabel.TextWrapped = true
+
+        uselessframeone.Parent = madebybloodofbatus
+        uselessframeone.BackgroundColor3 = Color3.fromRGB(255,255,255)
+        uselessframeone.Position = UDim2.new(0.004,0,0.24,0)
+        uselessframeone.Size = UDim2.new(0,224,0,5)
+        UICornerww.CornerRadius = UDim.new(0,50)
+        UICornerww.Parent = uselessframeone
+
+        uselesslabelfour.Parent = madebybloodofbatus
+        uselesslabelfour.BackgroundTransparency = 1
+        uselesslabelfour.Position = UDim2.new(0.05,0,0.81,0)
+        uselesslabelfour.Size = UDim2.new(0,95,0,12)
+        uselesslabelfour.Font = Enum.Font.SourceSans
+        uselesslabelfour.Text = "Anti-Afk Auto Enabled"
+        uselesslabelfour.TextColor3 = Color3.fromRGB(255,255,255)
+        uselesslabelfour.TextSize = 14
+
+        -- Ã°Å¸Â§Â² Draggable UI
+        local Drag = madebybloodofbatus
+        local gsTween = game:GetService("TweenService")
+        local UserInputService = game:GetService("UserInputService")
+        local dragging, dragInput, dragStart, startPos
+        local function update(input)
+            local delta = input.Position - dragStart
+            local dragTime = 0.04
+            local SmoothDrag = {}
+            SmoothDrag.Position = UDim2.new(startPos.X.Scale,startPos.X.Offset+delta.X,startPos.Y.Scale,startPos.Y.Offset+delta.Y)
+            gsTween:Create(Drag,TweenInfo.new(dragTime,Enum.EasingStyle.Sine,Enum.EasingDirection.InOut),SmoothDrag):Play()
+        end
+        Drag.InputBegan:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+                dragging = true
+                dragStart = input.Position
+                startPos = Drag.Position
+                input.Changed:Connect(function()
+                    if input.UserInputState == Enum.UserInputState.End then dragging = false end
+                end)
+            end
+        end)
+        Drag.InputChanged:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+                dragInput = input
+            end
+        end)
+        UserInputService.InputChanged:Connect(function(input)
+            if input == dragInput and dragging then update(input) end
+        end)
+
+        -- Ã°Å¸â€™Â¤ Anti-AFK Core
+        local vu = game:GetService('VirtualUser')
+        game.Players.LocalPlayer.Idled:Connect(function()
+            vu:CaptureController()
+            vu:ClickButton2(Vector2.new())
+        end)
+
+        -- Ã¢Å¡Â¡ FPS & Ping
+        local RunService = game:GetService("RunService")
+        local sec = tick()
+        local FPS = {}
+        RunService.RenderStepped:Connect(function()
+            local fr = tick()
+            for i=#FPS,1,-1 do FPS[i+1] = (FPS[i]>=fr-1) and FPS[i] or nil end
+            FPS[1] = fr
+            local fps = math.floor((tick()-sec>=1 and #FPS) or (#FPS/(tick()-sec)))
+            fpslabel.Text = fps
+        end)
+
+        spawn(function()
+            while getgenv().AntiAfkExecuted do
                 wait(1)
-                game:GetService("VirtualUser"):Button2Up(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
-            end)
+                local ping = math.floor(tonumber(game:GetService("Stats"):FindFirstChild("PerformanceStats").Ping:GetValue()))
+                pinglabel.Text = ping
+            end
+        end)
+
+        -- Ã¢ÂÂ±Ã¯Â¸Â Timer
+        local saniye, dakika, saat = 0,0,0
+        getgenv().zamanbaslaticisi = true
+        spawn(function()
+            while getgenv().zamanbaslaticisi do
+                saniye = saniye + 1
+                wait(1)
+                if saniye>=60 then saniye=0;dakika=dakika+1 end
+                if dakika>=60 then dakika=0;saat=saat+1 end
+                timerlabel.Text = saat..":"..dakika..":"..saniye
+            end
+        end)
+    else
+        -- Ã¢ÂÅ’ DESACTIVAR ANTI AFK
+        getgenv().AntiAfkExecuted = false
+        getgenv().zamanbaslaticisi = false
+        if game.CoreGui:FindFirstChild("thisoneissocoldww") then
+            game.CoreGui.thisoneissocoldww:Destroy()
         end
     end
-})
+end)
 
 Farm:AddButton({
     Title = "Auto Spin",
@@ -154,6 +375,113 @@ for _, rockName in ipairs(rocks) do
     })
 end
 
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Players = game:GetService("Players")
+local Stats = game:GetService("Stats")
+local LocalPlayer = Players.LocalPlayer
+
+local PET_NAME = "Swift Samurai"
+local ROCK_NAME = "Rock5M"
+local PROTEIN_EGG_NAME = "ProteinEgg"
+local PROTEIN_EGG_INTERVAL = 30 * 60 -- 30 min
+local REPS_PER_CYCLE = 160
+local REP_DELAY = 0.01
+local ROCK_INTERVAL = 5
+local MAX_PING = 700
+
+local HumanoidRootPart
+local lastProteinEggTime = 0
+local lastRockTime = 0
+local RockRef = workspace:FindFirstChild(ROCK_NAME)
+
+local function getPing()
+    local success, ping = pcall(function()
+        return Stats.Network.ServerStatsItem["Data Ping"]:GetValue()
+    end)
+    return success and ping or 999
+end
+
+local function updateCharacterRefs()
+    local character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+    HumanoidRootPart = character:WaitForChild("HumanoidRootPart", 5)
+end
+
+local function equipPet()
+    local petsFolder = LocalPlayer:FindFirstChild("petsFolder")
+    if petsFolder and petsFolder:FindFirstChild("Unique") then
+        for _, pet in pairs(petsFolder.Unique:GetChildren()) do
+            if pet.Name == PET_NAME then
+                ReplicatedStorage.rEvents.equipPetEvent:FireServer("equipPet", pet)
+                break
+            end
+        end
+    end
+end
+
+local function eatProteinEgg()
+    if LocalPlayer:FindFirstChild("Backpack") then
+        for _, item in pairs(LocalPlayer.Backpack:GetChildren()) do
+            if item.Name == PROTEIN_EGG_NAME then
+                ReplicatedStorage.rEvents.eatEvent:FireServer("eat", item)
+                break
+            end
+        end
+    end
+end
+
+local function hitRock()
+    if not RockRef or not RockRef.Parent then
+        RockRef = workspace:FindFirstChild(ROCK_NAME)
+    end
+    if RockRef and HumanoidRootPart then
+        HumanoidRootPart.CFrame = RockRef.CFrame * CFrame.new(0, 0, -5)
+        ReplicatedStorage.rEvents.hitEvent:FireServer("hit", RockRef)
+    end
+end
+
+-- Ã¢Å“â€¦ Loop principal
+if not getgenv()._AutoRepFarmLoop then
+    getgenv()._AutoRepFarmLoop = true
+
+    task.spawn(function()
+        updateCharacterRefs()
+        equipPet()
+        lastProteinEggTime = tick()
+        lastRockTime = tick()
+
+        while true do
+            if getgenv()._AutoRepFarmEnabled then
+                local ping = getPing()
+                if ping > MAX_PING then
+                    warn("[Auto Rep Farm] Ping alto ("..math.floor(ping).."ms), pausando 5s...")
+                    task.wait(5)
+                else
+                    if LocalPlayer:FindFirstChild("muscleEvent") then
+                        for i = 1, REPS_PER_CYCLE do
+                            LocalPlayer.muscleEvent:FireServer("rep")
+                        end
+                    end
+
+                    if tick() - lastProteinEggTime >= PROTEIN_EGG_INTERVAL then
+                        eatProteinEgg()
+                        lastProteinEggTime = tick()
+                    end
+
+                    if tick() - lastRockTime >= ROCK_INTERVAL then
+                        hitRock()
+                        lastRockTime = tick()
+                    end
+
+                    task.wait(REP_DELAY)
+                end
+            else
+                task.wait(1)
+            end
+        end
+    end)
+end
+
+
 -- ✅ Auto Tools
 local Tools = Tabs.Farm:AddSection("Auto Tools")
 
@@ -164,20 +492,49 @@ for _, tool in ipairs(toolNames) do
         Title = "Auto " .. tool,
         Default = false,
         Callback = function(v)
-            _G["AUTO_" .. tool:upper()] = v
-            spawn(function()
-                while _G["AUTO_" .. tool:upper()] do
-                    local toolObj = game.Players.LocalPlayer.Backpack:FindFirstChild(tool)
-                    if toolObj then
-                        toolObj.Parent = game.Players.LocalPlayer.Character
-                        game.Players.LocalPlayer.muscleEvent:FireServer("rep")
+            G.fastHitActive = Value
+    
+    if Value then
+        task.spawn(function()
+            while _G.fastHitActive do
+                if not _G.fastHitActive then break end
+                
+                local punch = LocalPlayer.Backpack:FindFirstChild("Punch")
+                if punch then
+                    punch.Parent = LocalPlayer.Character
+                    if punch:FindFirstChild("attackTime") then
+                        punch.attackTime.Value = 0
                     end
-                    task.wait(0.1)
                 end
-            end)
+                task.wait(0.1)
+            end
+        end)
+        
+        task.spawn(function()
+            while _G.fastHitActive do
+                if not _G.fastHitActive then break end
+                
+                LocalPlayer.muscleEvent:FireServer("punch", "rightHand")
+                LocalPlayer.muscleEvent:FireServer("punch", "leftHand")
+                
+                local character = LocalPlayer.Character
+                if character then
+                    local punchTool = character:FindFirstChild("Punch")
+                    if punchTool then
+                        punchTool:Activate()
+                    end
+                end
+                task.wait()
+            end
+        end)
+    else
+        local character = LocalPlayer.Character
+        local equipped = character:FindFirstChild("Punch")
+        if equipped then
+            equipped.Parent = LocalPlayer.Backpack
         end
-    })
-end
+    end
+end)
 
 Tools:AddToggle("FAST_TOOLS", {
     Title = "Fast Tools",
@@ -234,6 +591,159 @@ Rebirth:AddToggle("INFINITE_REBIRTH", {
         end)
     end
 })
+
+local IntSection = Tabs.Stats:CreateSection("Stats")
+local RunService = game:GetService("RunService")
+local player = game.Players.LocalPlayer
+
+local startTime = 0
+local sessionStartTime = os.time()
+local timerRunning = false
+
+local strengthGained = 0
+local lastStrengthValue = nil
+local rebirthsGained = 0
+local lastRebirthsValue = nil
+local killsGained = 0
+local lastKillsValue = nil
+local brawlsGained = 0
+local lastBrawlsValue = nil
+local goodKarmaGained = 0
+local lastGoodKarmaValue = nil
+local evilKarmaGained = 0
+local lastEvilKarmaValue = nil
+local durabilityGained = 0
+local lastDurabilityValue = nil
+local agilityGained = 0
+local lastAgilityValue = nil
+local muscleKingTimeGained = 0
+local lastMuscleKingTimeValue = nil
+
+local TimerParagraph = Tabs.Stats:CreateParagraph("SessionTimer", {
+	Title = "Elapsed Time",
+	Content = "0 Day, 0 Hours, 0 Minutes, 0 Seconds",
+	TitleAlignment = "Left",
+	ContentAlignment = Enum.TextXAlignment.Left
+})
+
+local LeaderParagraph = Tabs.Stats:CreateParagraph("LeaderStats", {
+	Title = "Current Stats             |             Gained Stats",
+	Content = "Loading Stats",
+	TitleAlignment = "Left",
+	ContentAlignment = Enum.TextXAlignment.Left
+})
+
+local IntParagraph = Tabs.Stats:CreateParagraph("IntStats", {
+	Title = "Kill & Brawl Stats",
+	Content = "Loading Stats",
+	TitleAlignment = "Left",
+	ContentAlignment = Enum.TextXAlignment.Left
+})
+
+
+local function formatNumber(number)
+	local formatted = tostring(math.floor(number))
+	local k
+	while true do
+		formatted, k = string.gsub(formatted, "^(-?%d+)(%d%d%d)", '%1,%2')
+		if k == 0 then
+			break
+		end
+	end
+	return formatted
+end
+
+local function formatTime(seconds)
+	local days = math.floor(seconds / 86400)
+	local hours = math.floor((seconds % 86400) / 3600)
+	local minutes = math.floor((seconds % 3600) / 60)
+	local secs = seconds % 60
+	return string.format("%dd %dh %dm %ds", days, hours, minutes, secs)
+end
+
+local function debugPrint(message, value)
+	print(string.format("[DEBUG] %s: %s", message, tostring(value)))
+end
+
+repeat
+	task.wait()
+until game:IsLoaded()
+debugPrint("")
+
+if not player.Character then
+	player.CharacterAdded:Wait()
+end
+debugPrint("Character Loaded", "Success")
+
+repeat
+	task.wait()
+until player:FindFirstChild("leaderstats") and player:FindFirstChild("goodKarma")
+debugPrint("")
+
+RunService.RenderStepped:Connect(function()
+	local sessionTime = os.time() - sessionStartTime
+	TimerParagraph:SetContent(formatTime(sessionTime))
+	if timerRunning then
+		local elapsed = os.time() - startTime
+		CustomTimerParagraph:SetContent(formatTime(elapsed))
+	end
+	local currentStrength = player.leaderstats.Strength.Value
+	local currentRebirths = player.leaderstats.Rebirths.Value
+	local currentKills = player.leaderstats.Kills.Value
+	local currentBrawls = player.leaderstats.Brawls.Value
+	local currentDurability = player.Durability.Value
+	local currentAgility = player.Agility.Value
+	if lastStrengthValue == nil then
+		lastStrengthValue = currentStrength
+	elseif currentStrength > lastStrengthValue then
+		strengthGained = strengthGained + (currentStrength - lastStrengthValue)
+	end
+	lastStrengthValue = currentStrength
+	if lastRebirthsValue == nil then
+		lastRebirthsValue = currentRebirths
+	elseif currentRebirths > lastRebirthsValue then
+		rebirthsGained = rebirthsGained + (currentRebirths - lastRebirthsValue)
+	end
+	lastRebirthsValue = currentRebirths
+	if lastKillsValue == nil then
+		lastKillsValue = currentKills
+	elseif currentKills > lastKillsValue then
+		killsGained = killsGained + (currentKills - lastKillsValue)
+	end
+	lastKillsValue = currentKills
+	if lastBrawlsValue == nil then
+		lastBrawlsValue = currentBrawls
+	elseif currentBrawls > lastBrawlsValue then
+		brawlsGained = brawlsGained + (currentBrawls - lastBrawlsValue)
+	end
+	lastBrawlsValue = currentBrawls
+	if lastDurabilityValue == nil then
+		lastDurabilityValue = currentDurability
+	elseif currentDurability > lastDurabilityValue then
+		durabilityGained = durabilityGained + (currentDurability - lastDurabilityValue)
+	end
+	lastDurabilityValue = currentDurability
+	if lastAgilityValue == nil then
+		lastAgilityValue = currentAgility
+	elseif currentAgility > lastAgilityValue then
+		agilityGained = agilityGained + (currentAgility - lastAgilityValue)
+	end
+	lastAgilityValue = currentAgility
+	LeaderParagraph:SetContent(string.format("Strength: %s     Strength Gained: %s\nRebirths: %s     Rebirths Gained: %s\nDurability: %s     Durability Gained: %s\nAgility: %s     Agility Gained: %s", formatNumber(currentStrength), formatNumber(strengthGained), formatNumber(currentRebirths), formatNumber(rebirthsGained), formatNumber(currentDurability), formatNumber(durabilityGained), formatNumber(currentAgility), formatNumber(agilityGained)))
+	IntParagraph:SetContent(string.format("Kills: %s     Kills Gained: %s\nBrawls: %s      Brawls Gained: %s", formatNumber(currentKills), formatNumber(killsGained), formatNumber(currentBrawls), formatNumber(brawlsGained)))
+end)
+
+local leaderStats = {
+	"Strength",
+	"Rebirths",
+	"Durability",
+    "Agility"
+}
+
+local intStats = {
+	"Kills",
+	"Brawls"
+}
 
 -- ✅ Kill
 local Kill = Tabs.Kill:AddSection("Combat")

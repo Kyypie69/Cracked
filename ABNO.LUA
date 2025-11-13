@@ -43,7 +43,7 @@ Farm:AddToggle("EAT_EGG", {
 Farm:AddToggle("ANTI_LAG", {
     Title = "Anti Lag",
     Default = false,
-    Callback = function(v)
+    Callback = function()
         local lighting = game:GetService("Lighting")
     if State then
         for _, gui in pairs(LocalPlayer.PlayerGui:GetChildren()) do
@@ -88,7 +88,7 @@ end
 Farm:AddToggle("ANTI_AFK", {
     Title = "Anti AFK",
     Default = false,
-    Callback = function(v)
+    Callback = function()
         if state then
         -- Ã¢Å“â€¦ ACTIVAR ANTI AFK
         if getgenv().AntiAfkExecuted and thisoneissocoldww then 
@@ -144,7 +144,7 @@ Farm:AddToggle("ANTI_AFK", {
         uselesslabelone.Size = UDim2.new(0,95,0,24)
         uselesslabelone.Font = Enum.Font.SourceSans
         uselesslabelone.Text = "Anti Afk Activated"
-        uselesslabelone.TextColor3 = Color3.fromRGB(50,255,50)
+        uselesslabelone.TextColor3 = Color3.fromRGB(255,255,255)
         uselesslabelone.TextSize = 14
 
         timerlabel.Parent = madebybloodofbatus
@@ -375,112 +375,6 @@ for _, rockName in ipairs(rocks) do
             end)
         end
     })
-end
-
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Players = game:GetService("Players")
-local Stats = game:GetService("Stats")
-local LocalPlayer = Players.LocalPlayer
-
-local PET_NAME = "Swift Samurai"
-local ROCK_NAME = "Rock5M"
-local PROTEIN_EGG_NAME = "ProteinEgg"
-local PROTEIN_EGG_INTERVAL = 30 * 60 -- 30 min
-local REPS_PER_CYCLE = 160
-local REP_DELAY = 0.01
-local ROCK_INTERVAL = 5
-local MAX_PING = 700
-
-local HumanoidRootPart
-local lastProteinEggTime = 0
-local lastRockTime = 0
-local RockRef = workspace:FindFirstChild(ROCK_NAME)
-
-local function getPing()
-    local success, ping = pcall(function()
-        return Stats.Network.ServerStatsItem["Data Ping"]:GetValue()
-    end)
-    return success and ping or 999
-end
-
-local function updateCharacterRefs()
-    local character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
-    HumanoidRootPart = character:WaitForChild("HumanoidRootPart", 5)
-end
-
-local function equipPet()
-    local petsFolder = LocalPlayer:FindFirstChild("petsFolder")
-    if petsFolder and petsFolder:FindFirstChild("Unique") then
-        for _, pet in pairs(petsFolder.Unique:GetChildren()) do
-            if pet.Name == PET_NAME then
-                ReplicatedStorage.rEvents.equipPetEvent:FireServer("equipPet", pet)
-                break
-            end
-        end
-    end
-end
-
-local function eatProteinEgg()
-    if LocalPlayer:FindFirstChild("Backpack") then
-        for _, item in pairs(LocalPlayer.Backpack:GetChildren()) do
-            if item.Name == PROTEIN_EGG_NAME then
-                ReplicatedStorage.rEvents.eatEvent:FireServer("eat", item)
-                break
-            end
-        end
-    end
-end
-
-local function hitRock()
-    if not RockRef or not RockRef.Parent then
-        RockRef = workspace:FindFirstChild(ROCK_NAME)
-    end
-    if RockRef and HumanoidRootPart then
-        HumanoidRootPart.CFrame = RockRef.CFrame * CFrame.new(0, 0, -5)
-        ReplicatedStorage.rEvents.hitEvent:FireServer("hit", RockRef)
-    end
-end
-
--- Ã¢Å“â€¦ Loop principal
-if not getgenv()._AutoRepFarmLoop then
-    getgenv()._AutoRepFarmLoop = true
-
-    task.spawn(function()
-        updateCharacterRefs()
-        equipPet()
-        lastProteinEggTime = tick()
-        lastRockTime = tick()
-
-        while true do
-            if getgenv()._AutoRepFarmEnabled then
-                local ping = getPing()
-                if ping > MAX_PING then
-                    warn("[Auto Rep Farm] Ping alto ("..math.floor(ping).."ms), pausando 5s...")
-                    task.wait(5)
-                else
-                    if LocalPlayer:FindFirstChild("muscleEvent") then
-                        for i = 1, REPS_PER_CYCLE do
-                            LocalPlayer.muscleEvent:FireServer("rep")
-                        end
-                    end
-
-                    if tick() - lastProteinEggTime >= PROTEIN_EGG_INTERVAL then
-                        eatProteinEgg()
-                        lastProteinEggTime = tick()
-                    end
-
-                    if tick() - lastRockTime >= ROCK_INTERVAL then
-                        hitRock()
-                        lastRockTime = tick()
-                    end
-
-                    task.wait(REP_DELAY)
-                end
-            else
-                task.wait(1)
-            end
-        end
-    end)
 end
 
 

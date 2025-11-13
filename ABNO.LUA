@@ -17,9 +17,9 @@ StatsTab = Window:AddTab({ Title = "Stats",        Icon = "stats" }),
 CalcTab = Window:AddTab({ Title = "Calculator",        Icon = "calculator" }),
 KillTab = Window:AddTab({ Title = "Killer",        Icon = "skull" }),
 TPTab = Window:AddTab({ Title = "Teleport",        Icon = "map-pin" }),
-CrystalTab = Window:AddTab({ Title = "Crystal",        Icon = "home" }),
-GiftTab = Window:AddTab({ Title = "Gift",        Icon = "diamond" }),
-CreditsTab = Window:AddTab({ Title = "Credits",        Icon = "home" })
+CrystalTab = Window:AddTab({ Title = "Crystal",        Icon = "refresher-cw" }),
+GiftTab = Window:AddTab({ Title = "Gift",        Icon = "activity" }),
+CreditsTab = Window:AddTab({ Title = "Credits",        Icon = "sliders" })
 )
 
 -- ✅ Farm OP

@@ -12,15 +12,15 @@ local Window = Library:CreateWindow({
 })
 
 local Tabs = {
-Farm = Window:AddTab({ Title = "Farm",        Icon = "home" }),
-Stats = Window:AddTab({ Title = "Stats",        Icon = "stats" }),
-Calc = Window:AddTab({ Title = "Calculator",        Icon = "calculator" }),
-Kill = Window:AddTab({ Title = "Killer",        Icon = "skull" }),
-TP = Window:AddTab({ Title = "Teleport",        Icon = "map-pin" }),
-Crystal = Window:AddTab({ Title = "Crystal",        Icon = "refresher-cw" }),
-Gift = Window:AddTab({ Title = "Gift",        Icon = "activity" }),
-Credits = Window:AddTab({ Title = "Credits",        Icon = "sliders" })
-)
+    Farm    = Window:AddTab({ Title = "Main",        Icon = "home" }),
+    Stats   = Window:AddTab({ Title = "Stats",   Icon = "bot" }),
+    Calc    = Window:AddTab({ Title = "Calculator",      Icon = "refresher-cw" }),
+    Kill    = Window:AddTab({ Title = "Killer",     Icon = "skull" }),
+    TP      = Window:AddTab({ Title = "Teleport",     Icon = "map-pin" }),
+    Crystal = Window:AddTab({ Title = "Crystal",       Icon = "activity" }),
+    Gift    = Window:AddTab({ Title = "Gift",        Icon = "cloud" }),
+    Credits = Window:AddTab({ Title = "Credits",         Icon = "settings" })
+}
 
 local Farm = Tabs.Farm:AddSection("Auto Farm")
 

@@ -2,10 +2,10 @@ local Library, SaveManager, InterfaceManager =
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Kyypie69/Library.UI/refs/heads/main/Speedhub.UI.lua"))()
 
 local Window = Library:CreateWindow({
-    Title = "Muscle Legends | SpeedHub X",
-    SubTitle = "50kgXMarkyy Full Port",
+    Title = "Markyy | Muscle Legends",
+    SubTitle = "KYY HUB x KYY PIE",
     TabWidth = 125,
-    Size = UDim2.fromOffset(600, 325),
+    Size = UDim2.fromOffset(450, 325),
     Acrylic = true,
     Theme = "SpeedHubX",
     MinimizeKey = Enum.KeyCode.RightControl

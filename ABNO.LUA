@@ -11,15 +11,15 @@ local Window = Library:CreateWindow({
     MinimizeKey = Enum.KeyCode.RightControl
 })
 
--- ✅ Tabs
-local FarmTab = Window:AddTab({ Title = "Farm OP" })
-local StatsTab = Window:AddTab({ Title = "Stats Farm" })
-local CalcTab = Window:AddTab({ Title = "Calculator" })
-local KillTab = Window:AddTab({ Title = "Kills" })
-local TPTab = Window:AddTab({ Title = "Teleport" })
-local CrystalTab = Window:AddTab({ Title = "Crystals" })
-local GiftTab = Window:AddTab({ Title = "Gift" })
-local CreditsTab = Window:AddTab({ Title = "Credits" })
+local Tabs = {
+FarmTab = Window:AddTab({ Title = "Farm OP" })
+StatsTab = Window:AddTab({ Title = "Stats Farm" })
+CalcTab = Window:AddTab({ Title = "Calculator" })
+KillTab = Window:AddTab({ Title = "Kills" })
+TPTab = Window:AddTab({ Title = "Teleport" })
+CrystalTab = Window:AddTab({ Title = "Crystals" })
+GiftTab = Window:AddTab({ Title = "Gift" })
+CreditsTab = Window:AddTab({ Title = "Credits" })
 
 -- ✅ Farm OP
 local Farm = FarmTab:AddSection("Auto Farm")

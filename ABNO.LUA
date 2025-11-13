@@ -12,18 +12,17 @@ local Window = Library:CreateWindow({
 })
 
 local Tabs = {
-FarmTab = Window:AddTab({ Title = "Farm",        Icon = "home" }),
-StatsTab = Window:AddTab({ Title = "Stats",        Icon = "stats" }),
-CalcTab = Window:AddTab({ Title = "Calculator",        Icon = "calculator" }),
-KillTab = Window:AddTab({ Title = "Killer",        Icon = "skull" }),
-TPTab = Window:AddTab({ Title = "Teleport",        Icon = "map-pin" }),
-CrystalTab = Window:AddTab({ Title = "Crystal",        Icon = "refresher-cw" }),
-GiftTab = Window:AddTab({ Title = "Gift",        Icon = "activity" }),
-CreditsTab = Window:AddTab({ Title = "Credits",        Icon = "sliders" })
+Farm = Window:AddTab({ Title = "Farm",        Icon = "home" }),
+Stats = Window:AddTab({ Title = "Stats",        Icon = "stats" }),
+Calc = Window:AddTab({ Title = "Calculator",        Icon = "calculator" }),
+Kill = Window:AddTab({ Title = "Killer",        Icon = "skull" }),
+TP = Window:AddTab({ Title = "Teleport",        Icon = "map-pin" }),
+Crystal = Window:AddTab({ Title = "Crystal",        Icon = "refresher-cw" }),
+Gift = Window:AddTab({ Title = "Gift",        Icon = "activity" }),
+Credits = Window:AddTab({ Title = "Credits",        Icon = "sliders" })
 )
 
--- ✅ Farm OP
-local Farm = FarmTab:AddSection("Auto Farm")
+local Farm = Tabs.Farm:AddSection("Auto Farm")
 
 Farm:AddToggle("OP_STRENGTH", {
     Title = "OP STRENGTH",
@@ -120,7 +119,7 @@ Farm:AddButton({
 })
 
 -- ✅ Rock Farming
-local Rock = FarmTab:AddSection("Rock Farming")
+local Rock = Tabs.Farm:AddSection("Rock Farming")
 
 local rocks = {
     "Tiny Island Rock",
@@ -156,7 +155,7 @@ for _, rockName in ipairs(rocks) do
 end
 
 -- ✅ Auto Tools
-local Tools = FarmTab:AddSection("Auto Tools")
+local Tools = Tabs.Farm:AddSection("Auto Tools")
 
 local toolNames = {"Punch", "Weight", "Pushups", "Handstands", "Situps"}
 
@@ -194,7 +193,7 @@ Tools:AddToggle("FAST_TOOLS", {
 })
 
 -- ✅ Rebirth
-local Rebirth = FarmTab:AddSection("Rebirth")
+local Rebirth = Tabs.Farm:AddSection("Rebirth")
 
 Rebirth:AddInput("REBIRTH_TARGET", {
     Title = "Rebirth Target",
@@ -237,7 +236,7 @@ Rebirth:AddToggle("INFINITE_REBIRTH", {
 })
 
 -- ✅ Kill
-local Kill = KillTab:AddSection("Combat")
+local Kill = Tabs.Kill:AddSection("Combat")
 
 Kill:AddToggle("AUTO_KILL", {
     Title = "Auto Kill",
@@ -331,7 +330,7 @@ Kill:AddButton({
 })
 
 -- ✅ Teleport
-local TP = TPTab:AddSection("Locations")
+local TP = Tabs.TP:AddSection("Locations")
 
 local locations = {
     {"Spawn", CFrame.new(2, 8, 115)},
@@ -357,7 +356,7 @@ for _, loc in ipairs(locations) do
 end
 
 -- ✅ Crystals
-local Crystal = CrystalTab:AddSection("Auto Buy")
+local Crystal = Tabs.Crystal:AddSection("Auto Buy")
 
 local pets = {
     "Blue Birdie",
@@ -394,7 +393,7 @@ Crystal:AddToggle("AUTO_BUY_PET", {
 })
 
 -- ✅ Gift
-local Gift = GiftTab:AddSection("Gifting")
+local Gift = Tabs.Gift:AddSection("Gifting")
 
 Gift:AddDropdown("GIFT_PLAYER", {
     Title = "Player to Gift",
@@ -437,11 +436,10 @@ Gift:AddButton({
 })
 
 -- ✅ Credits
-local Credits = CreditsTab:AddSection("Credits")
+local Credits = Tabs.Credits:AddSection("Credits")
 
 Credits:AddParagraph({
-    Title = "Made by ⚡SailynnxShi",
-    Content = "Sai ❤️ Arvelyn\nðŸ”¥H3LL_KYYðŸ”¥\nYOSHIROSHIBOLxBer\nSenXd\nK13 Clan On Top\nH3LL Clan On Top"
+    Title = "Made by MARKYY -pie"
 })
 
 -- ✅ Auto Farm Core (Preserved)
@@ -462,7 +460,6 @@ if not getgenv()._AutoRepFarmLoop then
     end)
 end
 
--- ✅ Auto Eat Egg
 spawn(function()
     while true do
         if getgenv().autoEatEnabled then
@@ -478,9 +475,8 @@ spawn(function()
     end
 end)
 
--- ✅ Notify Finish
 Library:Notify({
-    Title = "Shi SpeedHubX Final",
-    Content = "All features loaded & fixed!",
+    Title = "KYY 6.9",
+    Content = "HANDSOME MOMINTS NI MARKYY",
     Duration = 3
 })

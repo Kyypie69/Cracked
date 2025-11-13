@@ -12,14 +12,14 @@ local Window = Library:CreateWindow({
 })
 
 local Tabs = {
-FarmTab = Window:AddTab({ Title = "Farm OP" })
-StatsTab = Window:AddTab({ Title = "Stats Farm" })
-CalcTab = Window:AddTab({ Title = "Calculator" })
-KillTab = Window:AddTab({ Title = "Kills" })
-TPTab = Window:AddTab({ Title = "Teleport" })
-CrystalTab = Window:AddTab({ Title = "Crystals" })
-GiftTab = Window:AddTab({ Title = "Gift" })
-CreditsTab = Window:AddTab({ Title = "Credits" })
+FarmTab = Window:AddTab({ Title = "Farm",        Icon = "home" }),
+StatsTab = Window:AddTab({ Title = "Stats",        Icon = "home" }),
+CalcTab = Window:AddTab({ Title = "Calculator",        Icon = "home" }),
+KillTab = Window:AddTab({ Title = "Killer",        Icon = "home" }),
+TPTab = Window:AddTab({ Title = "Teleport",        Icon = "home" }),
+CrystalTab = Window:AddTab({ Title = "Crystal",        Icon = "home" }),
+GiftTab = Window:AddTab({ Title = "Gift",        Icon = "home" }),
+CreditsTab = Window:AddTab({ Title = "Credits",        Icon = "home" }),
 
 -- ✅ Farm OP
 local Farm = FarmTab:AddSection("Auto Farm")

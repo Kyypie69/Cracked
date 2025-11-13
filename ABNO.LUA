@@ -1,16 +1,14 @@
--- Shi.lua → SpeedHubX Full Port
--- Fixed & Completed by Kimi
--- ✅ All features working as of Nov 2025
-
-local Library, SaveManager, InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/Kyypie69/Library.UI/refs/heads/main/SpeedHubX.lua"))()
+local Library, SaveManager, InterfaceManager =
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Kyypie69/Library.UI/refs/heads/main/Speedhub.UI.lua"))()
 
 local Window = Library:CreateWindow({
-    Title = "Shi PAID | SpeedHubX Final",
-    SubTitle = "All features fixed & working",
-    Size = UDim2.new(0, 650, 0, 850),
+    Title = "Muscle Legends | SpeedHub X",
+    SubTitle = "50kgXMarkyy Full Port",
+    TabWidth = 125,
+    Size = UDim2.fromOffset(600, 325),
+    Acrylic = true,
     Theme = "SpeedHubX",
-    Acrylic = false,
-    Transparency = true
+    MinimizeKey = Enum.KeyCode.RightControl
 })
 
 -- ✅ Tabs

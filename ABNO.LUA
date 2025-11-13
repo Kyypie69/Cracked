@@ -43,7 +43,7 @@ Farm:AddToggle("EAT_EGG", {
 Farm:AddToggle("ANTI_LAG", {
     Title = "Anti Lag",
     Default = false,
-    Callback = function(state)
+    Callback = function(v)
         local lighting = game:GetService("Lighting")
     if State then
         for _, gui in pairs(LocalPlayer.PlayerGui:GetChildren()) do
@@ -82,12 +82,13 @@ Farm:AddToggle("ANTI_LAG", {
             end
         end)
     end
-end)
+end
+})
 
 Farm:AddToggle("ANTI_AFK", {
     Title = "Anti AFK",
     Default = false,
-    Callback = function(state)
+    Callback = function(v)
         if state then
         -- Ã¢Å“â€¦ ACTIVAR ANTI AFK
         if getgenv().AntiAfkExecuted and thisoneissocoldww then 
@@ -286,7 +287,8 @@ Farm:AddToggle("ANTI_AFK", {
             game.CoreGui.thisoneissocoldww:Destroy()
         end
     end
-end)
+end
+})
 
 Farm:AddButton({
     Title = "Auto Spin",

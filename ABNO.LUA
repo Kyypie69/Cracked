@@ -25,14 +25,17 @@ local Tabs = {
 local Farm = Tabs.Farm:AddSection("Auto Farm")
 
 Farm:AddToggle("OP_STRENGTH", {
-    Title = "OP STRENGTH",
+    Title = "Fast Strength",
     Default = false,
     Callback = function(v)
         getgenv()._AutoRepFarmEnabled = v
     end
 })
 
-Farm:AddToggle("Fast Rebirths", function(state)
+Farm:AddToggle("Fast Rebirths", {
+Title = "Fast Rebirth",
+Default = false,
+Callback = function(state)
     getgenv().AutoFarming = state
     if state then
         task.spawn(function()
@@ -102,10 +105,14 @@ Farm:AddToggle("Fast Rebirths", function(state)
             end
         end)
     end
-end)
+end
+})
 
 -- Ã°Å¸â€â€™ Lock Position
-Farm:AddToggle("Lock Position", function(Value)
+Farm:AddToggle("Lock Position", {
+Title = "Lock Pos",
+Default = false,
+Callback = function(Value)
     if Value then
         local currentPos = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
         getgenv().posLock = game:GetService("RunService").Heartbeat:Connect(function()
@@ -119,10 +126,14 @@ Farm:AddToggle("Lock Position", function(Value)
             getgenv().posLock = nil
         end
     end
-end)
+end
+})
 
 -- Ã°Å¸Å¡â‚¬ Anti Lag
-Farm:AddButton("Anti Lag", function()
+Farm:AddButton("Anti Lag", {
+Title = Anti Lag,
+Default = false,
+Callback = function()
     for _, v in pairs(game:GetDescendants()) do
         if v:IsA("ParticleEmitter") or v:IsA("Smoke") or v:IsA("Fire") or v:IsA("Sparkles") then
             v.Enabled = false
@@ -437,6 +448,7 @@ Farm:AddButton({
 
 Farm:AddButton({
     Title = "Equip Swift Samurai",
+Defaut = false,
     Callback = function()
         local LocalPlayer = game.Players.LocalPlayer
         local ReplicatedStorage = game:GetService("ReplicatedStorage")
